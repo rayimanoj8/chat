@@ -26,7 +26,7 @@ export function JoinRoom() {
                     <Input
                         placeholder="Enter your name"
                         value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={(e) => setName(e.target.value.toLowerCase())}
                         required
                         className="text-lg lowercase"
                     />

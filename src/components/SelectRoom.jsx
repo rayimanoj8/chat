@@ -25,7 +25,7 @@ export function SelectRoom() {
                     <Input
                         placeholder="Enter room ID"
                         value={roomId}
-                        onChange={(e) => setRoomId(e.target.value)}
+                        onChange={(e) => setRoomId(e.target.value.toLowerCase())}
                         required
                         className="text-lg lowercase"
                     />

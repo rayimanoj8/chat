@@ -75,7 +75,7 @@ export function Chat() {
     }
 
     const leaveRoom = () => {
-        navigate("/")
+        navigate("/chat")
     }
 
     return (

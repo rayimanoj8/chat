@@ -9,9 +9,9 @@ function App() {
         <Router>
             <div className="min-h-screen flex items-center justify-center p-4">
                 <Routes>
-                    <Route path="/" element={<SelectRoom />} />
-                    <Route path="/:roomId" element={<JoinRoom />} />
-                    <Route path="/chat/:roomId" element={<Chat />} />
+                    <Route path="chat/" element={<SelectRoom />} />
+                    <Route path="chat/:roomId" element={<JoinRoom />} />
+                    <Route path="chat/v1/:roomId" element={<Chat />} />
                     {/*<Route path="/test" element={<Test />} />*/}
                 </Routes>
             </div>

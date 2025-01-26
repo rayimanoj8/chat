@@ -12,7 +12,7 @@ export function JoinRoom() {
     const handleJoin = (e) => {
         e.preventDefault()
         if (name.trim()) {
-            navigate(`/chat/${roomId}`, { state: { name } })
+            navigate(`/chat/v1/${roomId}`, { state: { name } })
         }
     }
 

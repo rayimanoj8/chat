@@ -3,11 +3,14 @@ import { useParams, useLocation, useNavigate } from "react-router-dom"
 import { Client } from "@stomp/stompjs"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Send, LogOut } from "lucide-react"
+import { Send, LogOut,Copy } from "lucide-react"
+import {Toaster} from "@/components/ui/toaster.jsx";
+import {useToast} from "@/hooks/use-toast.js";
 
 export function Chat() {
+    const {toast} = useToast();
     const { roomId } = useParams()
     const location = useLocation()
     const navigate = useNavigate()
@@ -77,59 +80,107 @@ export function Chat() {
     const leaveRoom = () => {
         navigate("/")
     }
+    const handleClick = () => {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard
+                .writeText(`chat-mate-box.netlify.app/#/${roomId}`)
+                .then(() => {})
+                .catch((err) => {
+                    console.error("Failed to copy: ", err);
+                });
+            toast({
+                description: "link copied to your clipboard",
+            });
+        } else {
+            // Fallback for unsupported browsers
+            const textArea = document.createElement("textarea");
+            textArea.value = `chat-mate-box.netlify.app/#/${roomId}`;
+            textArea.style.position = "fixed"; // Prevent scrolling
+            textArea.style.opacity = "0";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand("copy");
+                toast({
+                    description: "link copied to your clipboard"
+                });
 
+            } catch (err) {
+                toast({
+                    description: "Error Copying",
+                    variant: "destructive",
+                });
+            }
+            document.body.removeChild(textArea);
+        }
+    };
     return (
-        <Card className="w-full max-w-2xl mx-auto h-[80vh] flex flex-col shadow-lg">
-            <CardContent className="flex flex-col h-full p-0">
-                <div className="p-4 flex justify-between items-center rounded-t-lg">
-                    <div>
-                        <h2 className="inline text-2xl font-bold hover:cursor-pointer hover:bg-muted rounded p-1  hover:text-xl transition-all ease-in-out">{roomId} /&nbsp;
-                            <p className='inline capitalize'>
-                                {sender}
-                            </p>
-                        </h2>
-                    </div>
-                    <Button variant="secondary" size="icon" onClick={leaveRoom}>
-                        <LogOut className="h-4 w-4" />
-                    </Button>
-                </div>
-                <ScrollArea className="flex-grow p-4 space-y-4">
-                    {messages.map((msg, index) => (
-                        <div key={index}
-
-                             className={`flex m-1 ${msg.sender === sender ? "justify-end" : "justify-start"}`}>
-                            <div
-                                className={`px-3 py-2 rounded-xl ${
-                                    msg.sender === sender
-                                        ? "bg-primary text-primary-foreground rounded-br-none"
-                                        : "bg-muted rounded-bl-none max-w-[70%]"
-                                }`}
-                            >
-                                <h1 className='font-semibold capitalize'>{msg.sender}</h1>
-                                <p className={`text-sm flex italic ${
-                                    msg.sender === sender
-                                        ? "justify-end"
-                                        : "justify-start"
-                                }`}>{msg.message}</p>
-                            </div>
+        <div className='w-full max-w-2xl'>
+            <Card>
+                <CardHeader>
+                    <CardTitle>Share and ask your friends to join</CardTitle>
+                    <CardDescription className='flex gap-4'>
+                        <p className='mt-2'>chat-mate-box.netlify.app/#/{roomId}</p>
+                        <Button variant='outline' onClick={handleClick}>
+                            <Copy className='size-4'/>
+                        </Button>
+                    </CardDescription>
+                </CardHeader>
+            </Card>
+            <Card className="w-full max-w-2xl mx-auto h-[80vh] flex flex-col shadow-lg">
+                <CardContent className="flex flex-col h-full p-0">
+                    <div className="p-4 flex justify-between items-center rounded-t-lg">
+                        <div>
+                            <h2 className="inline text-2xl font-bold hover:cursor-pointer hover:bg-muted rounded p-1  hover:text-xl transition-all ease-in-out">{roomId} /&nbsp;
+                                <p className='inline capitalize'>
+                                    {sender}
+                                </p>
+                            </h2>
                         </div>
-                    ))}
-                    <div ref={messagesEndRef}/>
-                </ScrollArea>
-                <form onSubmit={sendMessage} className="p-4 bg-background border-t">
-                    <div className="flex space-x-2">
-                        <Input
-                            placeholder="Type a message"
-                            value={message}
-                            onChange={(e) => setMessage(e.target.value)}
-                            className="flex-grow"
-                        />
-                        <Button type="submit" size="icon" disabled={!connected || !message.trim()}>
-                            <Send className="h-4 w-4" />
+                        <Button variant="secondary" size="icon" onClick={leaveRoom}>
+                            <LogOut className="h-4 w-4" />
                         </Button>
                     </div>
-                </form>
-            </CardContent>
-        </Card>
+                    <ScrollArea className="flex-grow p-4 space-y-4">
+                        {messages.map((msg, index) => (
+                            <div key={index}
+
+                                 className={`flex m-1 ${msg.sender === sender ? "justify-end" : "justify-start"}`}>
+                                <div
+                                    className={`px-3 py-2 rounded-xl ${
+                                        msg.sender === sender
+                                            ? "bg-primary text-primary-foreground rounded-br-none"
+                                            : "bg-muted rounded-bl-none max-w-[70%]"
+                                    }`}
+                                >
+                                    <h1 className='font-semibold capitalize'>{msg.sender}</h1>
+                                    <p className={`text-sm flex italic ${
+                                        msg.sender === sender
+                                            ? "justify-end"
+                                            : "justify-start"
+                                    }`}>{msg.message}</p>
+                                </div>
+                            </div>
+                        ))}
+                        <div ref={messagesEndRef}/>
+                    </ScrollArea>
+                    <form onSubmit={sendMessage} className="p-4 bg-background border-t">
+                        <div className="flex space-x-2">
+                            <Input
+                                placeholder="Type a message"
+                                value={message}
+                                onChange={(e) => setMessage(e.target.value)}
+                                className="flex-grow"
+                            />
+                            <Button type="submit" size="icon" disabled={!connected || !message.trim()}>
+                                <Send className="h-4 w-4" />
+                            </Button>
+                        </div>
+                    </form>
+                </CardContent>
+            </Card>
+            <Toaster />
+        </div>
     )
 }

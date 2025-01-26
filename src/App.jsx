@@ -1,5 +1,5 @@
 import React from "react"
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { HashRouter as Router, Routes, Route } from "react-router-dom"
 import { SelectRoom } from "./components/SelectRoom"
 import { JoinRoom } from "./components/JoinRoom"
 import { Chat } from "./components/Chat"
@@ -20,4 +20,3 @@ function App() {
 }
 
 export default App
-

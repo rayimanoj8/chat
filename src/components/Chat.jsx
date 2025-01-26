@@ -5,9 +5,10 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Send, LogOut,Copy } from "lucide-react"
+import {Send, LogOut, Copy, Sun, Moon} from "lucide-react"
 import {Toaster} from "@/components/ui/toaster.jsx";
 import {useToast} from "@/hooks/use-toast.js";
+import {useTheme} from "@/components/theme-provider.js";
 
 export function Chat() {
     const {toast} = useToast();

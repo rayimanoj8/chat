@@ -11,7 +11,7 @@ export function SelectRoom() {
     const handleSubmit = (e) => {
         e.preventDefault()
         if (roomId.trim()) {
-            navigate(`/chat/${roomId}`)
+            navigate(`/${roomId}`)
         }
     }
 

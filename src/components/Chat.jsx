@@ -75,7 +75,7 @@ export function Chat() {
     }
 
     const leaveRoom = () => {
-        navigate("/chat")
+        navigate("/")
     }
 
     return (
@@ -83,7 +83,11 @@ export function Chat() {
             <CardContent className="flex flex-col h-full p-0">
                 <div className="p-4 flex justify-between items-center rounded-t-lg">
                     <div>
-                        <h2 className="text-2xl font-bold hover:cursor-pointer hover:bg-muted rounded p-1  hover:text-xl transition-all ease-in-out">{roomId} / {sender}</h2>
+                        <h2 className="inline text-2xl font-bold hover:cursor-pointer hover:bg-muted rounded p-1  hover:text-xl transition-all ease-in-out">{roomId} /&nbsp;
+                            <p className='inline capitalize'>
+                                {sender}
+                            </p>
+                        </h2>
                     </div>
                     <Button variant="secondary" size="icon" onClick={leaveRoom}>
                         <LogOut className="h-4 w-4" />

@@ -20,14 +20,14 @@ function App() {
     },[theme, toggleTheme])
     return (
         <ThemeProvider value={{theme,toggleTheme}}>
-            <div className='flex justify-end'>
-                {theme === 'dark' ?
-                    <Button variant='ghost' onClick={toggleTheme}><Sun/></Button> :
-                    <Button variant='ghost' onClick={toggleTheme}><Moon/></Button>
-                }
-            </div>
             <Router>
                 <div className="min-h-screen flex items-center justify-center p-4">
+                <div className='absolute top-0 right-0'>
+                    {theme === 'dark' ?
+                        <Button variant='ghost' onClick={toggleTheme}><Sun/></Button> :
+                        <Button variant='ghost' onClick={toggleTheme}><Moon/></Button>
+                    }
+                </div>
                     <Routes>
                         <Route path="/" element={<SelectRoom />} />
                         <Route path="/:roomId" element={<JoinRoom />} />

@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card"
 
 export function SelectRoom() {
     const [roomId, setRoomId] = useState("")
@@ -20,20 +20,23 @@ export function SelectRoom() {
             <CardHeader className="rounded-t-lg">
                 <CardTitle className="text-2xl font-bold">Enter Chat Room</CardTitle>
             </CardHeader>
+            <form onSubmit={handleSubmit} className="space-y-4">
             <CardContent className="p-6">
-                <form onSubmit={handleSubmit} className="space-y-4">
                     <Input
                         placeholder="Enter room ID"
                         value={roomId}
                         onChange={(e) => setRoomId(e.target.value.toLowerCase())}
                         required
-                        className="text-lg lowercase"
+                        className="text-lg lowercase placeholder:capitalize"
                     />
-                    <Button type="submit" className="w-full text-lg">
+
+            </CardContent>
+                <CardFooter>
+                    <Button>
                         Join Room
                     </Button>
+                </CardFooter>
                 </form>
-            </CardContent>
         </Card>
     )
 }
